@@ -1,5 +1,5 @@
 # Purpose
-This script is designed for the purpose: fingerprint players' cards and use them to determine who is the winner. This script is independent of any python library (random library is only used for test purpose). 
+This script is designed for the purpose: fingerprint players' cards and use them to determine who is the winner.
 # Feature
 1. Use fingerprint to characterize player's cards.
 2. Independent of any python library. (random library is only used for test purpose. )
