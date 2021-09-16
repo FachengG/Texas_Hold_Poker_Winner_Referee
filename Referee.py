@@ -1,37 +1,7 @@
-# Facheng Guo | Auguest 2021
-# Special thanks for Qixuan Yu for his support on debug.
+# Author: Facheng Guo | Auguest 2021
+# Special thanks for Qixuan Yu for support on debug.
 
-import random
-
-# Generate n cards, only use when initial the game.
-def _get_n_cards(num=0):
-    initial_cards = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51]
-    return_cards = []
-    while len(return_cards) < num:
-        card = random.choice(initial_cards)
-        initial_cards.remove(card)
-        return_cards.append(card)
-    return return_cards
-
-# Get 2 more card after game started. input_list is the cards already assigned. 
-def _two_more_card(input_list):
-    initial_cards = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51]
-    return_cards = []
-    for i in input_list:
-        initial_cards.remove(i)
-    while len(return_cards) < 2:
-        card = random.choice(initial_cards)
-        initial_cards.remove(card)
-        return_cards.append(card)
-    return return_cards
-
-# Transfer the card number to suit/value.
-def card_transfer_to_value_color(cards):
-    result = []
-    for card in cards:
-        result.append([card // 13, card % 13])
-    return result
-
+### Main Script Start ###
 # Fingerprint the Flush.
 def Flush_to_fingerprint(cards):
     result = []
@@ -302,15 +272,58 @@ def compare_machine(finger_print_1,finger_print_2,finger_print_3=None,finger_pri
 
         card_type += 1
 
-# Test
+### Main Script End ###
+### Test Start ###
+import random
+
+# Generate n cards, only use when initial the game.
+def _get_n_cards(num=0):
+    initial_cards = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51]
+    return_cards = []
+    while len(return_cards) < num:
+        card = random.choice(initial_cards)
+        initial_cards.remove(card)
+        return_cards.append(card)
+    return return_cards
+
+# Get 2 more card after game started. input_list is the cards already assigned. 
+def _two_more_card(input_list):
+    initial_cards = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51]
+    return_cards = []
+    for i in input_list:
+        initial_cards.remove(i)
+    while len(return_cards) < 2:
+        card = random.choice(initial_cards)
+        initial_cards.remove(card)
+        return_cards.append(card)
+    return return_cards
+
+# Transfer the card number to suit/value.
+def card_transfer_to_value_color(cards):
+    result = []
+    for card in cards:
+        result.append([card // 13, card % 13])
+    return result
+
+## Example of Usage Start ##
+print("Two players (and the table)  assigned random cards to against each other. cards range: 0 - 51. 0 is the smallest card 2 and 12 is the largest card A.")
+# Assign 5 cards on the Table.
 table = _get_n_cards(5)
 print("Cards on the tables are: " + str(table))
-player_1 = table + _two_more_card(table)
-player_2 = table + _two_more_card(player_1)
-player1 = card_transfer_to_value_color(player_1)
-player2 = card_transfer_to_value_color(player_2)
 
-print("Player 1's cards are" + str(player1))
-print("Player 2's cards are" + str(player2))
+# Assign 2 cards to player 1 and player 2.
+player_1 = _two_more_card(table)
+player_2 = _two_more_card(player_1 + table)
 
-print("The winner is Player " + str(compare_machine(cards_finger_print(player1),cards_finger_print(player2))))
+# Transfer player1's and player2's cards from [number] to [suit,value].
+player1_with_table_cards = card_transfer_to_value_color(player_1 + table)
+player2_with_table_cards = card_transfer_to_value_color(player_2 + table)
+
+print("Player 1's cards are: " + str(player_1))
+print("Player 2's cards are: " + str(player_2))
+
+# Judge who's cards' combination is larger.
+Winner = compare_machine(cards_finger_print(player1_with_table_cards),cards_finger_print(player2_with_table_cards))
+print("The winner is: Player " + str(Winner))
+## Example of Usage End ##
+### Test End ###
